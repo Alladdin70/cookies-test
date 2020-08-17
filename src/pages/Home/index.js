@@ -17,9 +17,10 @@ const useStyle = makeStyles({
 
 const Home = withCookies((props)=> {
     const classes = useStyle();
-    if(!props.cookies.get('isLoggedSpotyfy')){
+    if(!props.cookies.get('isLogged')){
         props.history.push('/login');
     }
+    console.log(props);
     return(
         <div className={classes.canvas}></div>
 

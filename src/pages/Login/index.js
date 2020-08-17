@@ -22,15 +22,11 @@ const useStyle = makeStyles({
 
 const Login = withCookies((props)=> {
     const classes = useStyle();
-    console.log(props);
     const loginButtonHandler = () => {
         alert("You have pressed the login button!");
-        fetch('/auth').then(res=>res.text()).then((res)=>{
-            console.log(res);
-            alert(res)
-        });
-
+        window.location.href='http://localhost:3001/auth';
     };
+
     return (
         <Container className={classes.canvas} disableGutters='true'>
             <Grid container spacing={2}>
