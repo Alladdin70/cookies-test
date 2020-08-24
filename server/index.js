@@ -126,6 +126,40 @@ app.get('/refresh_token', function(req, res) {
       }
     });
 });
+app.get('/artist_search',function (req,res) {
+    var resbody = '';
+    var name = req.query.name;
+    var authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        headers: { 'Authorization': 'Basic ' + (new Buffer(my_client_id + ':' +my_client_secret).toString('base64'))},
+        form: {
+            grant_type: 'client_credentials',
+        },
+        json: true
+    };
+    request.post(authOptions, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var token = body.access_token;
+            console.log(name);
+            var options = {
+                url: 'https://api.spotify.com/v1/search',
+                headers: { 'Authorization': 'Bearer ' + token },
+                qs: {
+                    q: name,
+                    type: 'artist'
+                },
+            };
+            console.log(options);
+            request.get(options,function (error,response,body) {
+                let jso = JSON.parse(body).artists.items;
+                let id = jso[0].id
+                res.send(JSON.stringify({id:id}));
+            });
+        }
+
+    });
+
+});
     
 
 app.listen(3001);
